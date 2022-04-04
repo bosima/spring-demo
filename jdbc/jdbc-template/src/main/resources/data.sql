@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS person;
+
+CREATE TABLE person (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  name VARCHAR(250) NOT NULL,
+  city VARCHAR(250) NOT NULL
+);
+
+CREATE TABLE BAR (
+  ID INT AUTO_INCREMENT  PRIMARY KEY,
+  FOO VARCHAR(250) NOT NULL
+);
+
+INSERT INTO person (name, city) VALUES
+  ('王五', '北京'),
+  ('李三', '济南'),
+  ('猴六', '昆明');
