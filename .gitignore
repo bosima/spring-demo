@@ -3,7 +3,7 @@ target/
 
 # IDEA #
 .idea/
-.mvn
+.mvn/
 *.iml
 
 # Compiled class file

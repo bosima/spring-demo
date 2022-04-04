@@ -12,6 +12,9 @@ public class JdbcTemplateDemoApplication implements CommandLineRunner {
     @Autowired
     private BarDao barDao;
 
+    @Autowired
+    private BatchBarDao batchBarDao;
+
     public static void main(String[] args) {
         SpringApplication.run(JdbcTemplateDemoApplication.class, args);
     }
@@ -19,6 +22,7 @@ public class JdbcTemplateDemoApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         barDao.insertData();
+        batchBarDao.batchInsert();
         barDao.listData();
     }
 }
