@@ -3,6 +3,9 @@ package cn.bossma.springdemo.mybatismysql;
 import cn.bossma.springdemo.mybatismysql.mapper.ProductMapper;
 import cn.bossma.springdemo.mybatismysql.model.Product;
 import cn.bossma.springdemo.mybatismysql.model.ProductExample;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageRowBounds;
 import lombok.extern.slf4j.XSlf4j;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -39,14 +42,23 @@ public class MybatisMysqlApplication implements ApplicationRunner {
         productMapper.insert(product0);
         log.info("Add Product Id: {}", product0.getId());
 
-        var product = new Product()
+        var product1 = new Product()
                 .withName("Book")
                 .withPrice(Money.of(CurrencyUnit.of("CNY"), 100.0))
                 .withDescription("I am a book")
                 .withCreateTime(new Date())
                 .withUpdateTime(new Date());
-        productMapper.insert(product);
-        log.info("Add Product Id: {}", product.getId());
+        productMapper.insert(product1);
+        log.info("Add Product Id: {}", product1.getId());
+
+        var product2 = new Product()
+                .withName("Dog")
+                .withPrice(Money.of(CurrencyUnit.of("CNY"), 100.0))
+                .withDescription("I am a dog")
+                .withCreateTime(new Date())
+                .withUpdateTime(new Date());
+        productMapper.insert(product2);
+        log.info("Add Product Id: {}", product2.getId());
 
         var example = new ProductExample();
         example.createCriteria().andNameEqualTo("Book");
@@ -55,16 +67,38 @@ public class MybatisMysqlApplication implements ApplicationRunner {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2022, 0, 1, 0, 0, 0);
+        PageHelper.startPage(1, 2);
         list = productMapper.selectByCreateTime(calendar.getTime());
         log.info("selectByCreateTime: {}", list);
 
         list = productMapper.selectByName("Book");
         log.info("selectByName: {}", list);
 
-        var deleteResult0 = productMapper.deleteByPrimaryKey(product0.getId());
-        log.info("deleteByPrimaryKey 0: {}", deleteResult0);
+        list = productMapper.selectList(new PageRowBounds(1, 2));
+        log.info("selectList 1: {}", list);
 
-        var deleteResult = productMapper.deleteByPrimaryKey(product.getId());
-        log.info("deleteByPrimaryKey: {}", deleteResult);
+        list = productMapper.selectList(new PageRowBounds(2, 2));
+        log.info("selectList 2: {}", list);
+
+        PageInfo page = new PageInfo(list);
+        log.info("selectList PageInfo: {}", page);
+
+        list = productMapper.selectByPageNumSize(1, 2);
+        log.info("selectByPageNumSize 1: {}", list);
+
+        list = productMapper.selectByPageNumSize(2, 2);
+        log.info("selectByPageNumSize 2: {}", list);
+
+        page = new PageInfo(list);
+        log.info("selectByPageNumSize PageInfo: {}", page);
+
+        var deleteResult0 = productMapper.deleteByPrimaryKey(product0.getId());
+        log.info("deleteByPrimaryKey: {}", deleteResult0);
+
+        var deleteResult1 = productMapper.deleteByPrimaryKey(product1.getId());
+        log.info("deleteByPrimaryKey: {}", deleteResult1);
+
+        var deleteResult2 = productMapper.deleteByPrimaryKey(product2.getId());
+        log.info("deleteByPrimaryKey: {}", deleteResult2);
     }
 }
