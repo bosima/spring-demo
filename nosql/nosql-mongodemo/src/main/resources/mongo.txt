@@ -1,0 +1,24 @@
+docker run -d -p 27017:27017 --name mongo1 \
+	-e MONGO_INITDB_ROOT_USERNAME=admin \
+	-e MONGO_INITDB_ROOT_PASSWORD=admin \
+	mongo
+
+
+docker exec -it mongo1 sh
+
+mongo -u admin -p admin
+
+use springshop
+
+db.createUser(
+    {
+        user:"springshop",
+        pwd:"springshop",
+        roles:[
+            {role:"readWrite",db:"springshop"}
+        ]
+    }
+);
+
+
+
