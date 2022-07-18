@@ -20,8 +20,8 @@ public class CommonReactorApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Flux.range(1, 5)
+                .publishOn(Schedulers.single())
                 .doOnRequest(d -> System.out.println("doOnRequest " + d))
-                .publishOn(Schedulers.parallel())
                 .doOnComplete(() -> System.out.println("doOnComplete 1"))
                 .map(d -> {
                     System.out.println("map " + d);
@@ -29,11 +29,14 @@ public class CommonReactorApplication implements ApplicationRunner {
                     return d;
                 })
                 .doOnComplete(() -> System.out.println("doOnComplete 2"))
-//                .onErrorResume(e->{
-//                    return Mono.just(-1);
-//                })
+                .onErrorResume(e->{
+                    return Mono.just(-1);
+                })
                 .subscribe(d -> System.out.println("subscribe " + d + "," + Thread.currentThread().getId())
                         , e -> System.out.println("e.getMessage() = " + e.getMessage())
-                        , () -> System.out.println("subscribe completed"));
+                        , () -> System.out.println("subscribe completed")
+                );
+
+        Thread.sleep(2000);
     }
 }
