@@ -1,9 +1,6 @@
 package cn.bossma.springdemo.r2dbc.h2.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
 @Data
@@ -14,6 +11,7 @@ public class Customer {
     @Id
     private Long id;
 
+    @NonNull
     private String firstName;
 
     private String lastName;
