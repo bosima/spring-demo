@@ -1,11 +1,14 @@
 package cn.bossma.springdemo.mvc.restful.service;
 
+import cn.bossma.springdemo.mvc.restful.error.ArgumentException;
 import cn.bossma.springdemo.mvc.restful.model.Product;
 import cn.bossma.springdemo.mvc.restful.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,23 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public Product insert(Product product) {
+        var exists = productRepository.exists(new Example<>() {
+            @Override
+            public Product getProbe() {
+                return product;
+            }
+
+            @Override
+            public ExampleMatcher getMatcher() {
+                return ExampleMatcher.matching()
+                        .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.ignoreCase());
+            }
+        });
+
+        if (exists) {
+            throw new ArgumentException(product.getName() + " has exists!", 1001);
+        }
+
         return productRepository.save(product);
     }
 

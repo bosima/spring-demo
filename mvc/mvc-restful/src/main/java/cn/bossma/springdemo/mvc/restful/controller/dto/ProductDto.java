@@ -1,4 +1,4 @@
-package cn.bossma.springdemo.mvc.restful.dto;
+package cn.bossma.springdemo.mvc.restful.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

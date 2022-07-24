@@ -1,11 +1,10 @@
-package cn.bossma.springdemo.mvc.restful.dto;
+package cn.bossma.springdemo.mvc.restful.controller.dto;
 
 import cn.bossma.springdemo.mvc.restful.model.Product;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

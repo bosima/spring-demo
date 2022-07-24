@@ -1,4 +1,4 @@
-package cn.bossma.springdemo.mvc.restful.convert;
+package cn.bossma.springdemo.mvc.restful.repository.convert;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
