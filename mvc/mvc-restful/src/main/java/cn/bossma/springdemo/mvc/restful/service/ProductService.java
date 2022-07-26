@@ -32,7 +32,8 @@ public class ProductService {
             @Override
             public ExampleMatcher getMatcher() {
                 return ExampleMatcher.matching()
-                        .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.ignoreCase());
+                        .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.ignoreCase())
+                        .withIgnorePaths("price","description");
             }
         });
 
