@@ -60,6 +60,7 @@ public class WebRestTemplateApplication implements ApplicationRunner {
                 .price(BigDecimal.valueOf(199.99))
                 .build();
         String addResponse = restTemplate.execute(addUri, HttpMethod.POST, request -> {
+            request.getHeaders().add("Content-Type", "application/json");
             try (OutputStreamWriter osw = new OutputStreamWriter(request.getBody());
                  BufferedWriter bw = new BufferedWriter(osw)) {
                 bw.write(JSON.toJSONString(product));
@@ -87,7 +88,7 @@ public class WebRestTemplateApplication implements ApplicationRunner {
             log.info("exchange:{}", p);
         });
 
-        var stringList = restTemplate.getForEntity("http://localhost:8080/product/get",String.class);
+        var stringList = restTemplate.getForEntity("http://localhost:8080/product/get", String.class);
         log.info("getForEntity:{}", stringList);
     }
 }
