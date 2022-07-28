@@ -36,24 +36,24 @@ public class WebRestTemplateApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        var entity = restTemplate.getForEntity("http://localhost:8080/product/get/1", Product.class);
+        var entity = restTemplate.getForEntity("http://localhost:8080/product/1", Product.class);
         log.info("getForEntity:{}", entity);
         entity.getHeaders().forEach((k, v) -> {
             log.info("{}:{}", k, v);
         });
         log.info("getForEntity->Object:{}", entity.getBody());
 
-        var object = restTemplate.getForObject("http://localhost:8080/product/get/2", Product.class);
+        var object = restTemplate.getForObject("http://localhost:8080/product/2", Product.class);
         log.info("getForObject:{}", object);
 
         var uri = UriComponentsBuilder
-                .fromUriString("http://localhost:8080/product/get/{id}")
+                .fromUriString("http://localhost:8080/product/{id}")
                 .build(1);
         var uriObject = restTemplate.getForObject(uri, Product.class);
         log.info("uri-getForObject:{}", uriObject);
 
         var addUri = UriComponentsBuilder
-                .fromUriString("http://localhost:8080/product/add")
+                .fromUriString("http://localhost:8080/product/")
                 .build().toUri();
         Product product = Product.builder()
                 .name("Toy")
@@ -82,13 +82,13 @@ public class WebRestTemplateApplication implements ApplicationRunner {
         ParameterizedTypeReference<List<Product>> listRef = new ParameterizedTypeReference<>() {
         };
 
-        var list = restTemplate.exchange("http://localhost:8080/product/get", HttpMethod.GET
+        var list = restTemplate.exchange("http://localhost:8080/product/", HttpMethod.GET
                 , null, listRef);
         list.getBody().forEach(p -> {
             log.info("exchange:{}", p);
         });
 
-        var stringList = restTemplate.getForEntity("http://localhost:8080/product/get", String.class);
+        var stringList = restTemplate.getForEntity("http://localhost:8080/product/", String.class);
         log.info("getForEntity:{}", stringList);
     }
 }

@@ -30,13 +30,13 @@ public class ProductController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @GetMapping("/get")
+    @GetMapping("/")
     public ProductDto getByName(@NotNull String name) {
         var product = productService.getByName(name);
         return modelMapper.map(product, ProductDto.class);
     }
 
-    @GetMapping(path = "/get", params = "!name")
+    @GetMapping(path = "/", params = "!name")
     public List<ProductDto> getAll() {
         var productList = productService.getAll();
         List<ProductDto> dtoList = new ArrayList<>();
@@ -46,13 +46,13 @@ public class ProductController {
         return dtoList;
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ProductDto getById(@PathVariable Long id) {
         var product = productService.getById(id);
         return modelMapper.map(product, ProductDto.class);
     }
 
-    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ProductDto add(@RequestBody ProductDto productDto) {
         var product = modelMapper.map(productDto, Product.class);
@@ -60,7 +60,7 @@ public class ProductController {
         return modelMapper.map(product, ProductDto.class);
     }
 
-    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
     public ProductDto add(@Valid NewProductRequest request, BindingResult result) {
         if (result.hasErrors()) {
