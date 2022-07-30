@@ -22,6 +22,7 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+    @Column(unique = true)
     private String name;
     private Money price;
     @CreationTimestamp
