@@ -7,6 +7,10 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.data.relational.core.query.Criteria;
+import org.springframework.data.relational.core.query.CriteriaDefinition;
+import org.springframework.data.relational.core.query.Query;
+import org.springframework.data.relational.core.sql.SqlIdentifier;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +19,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class OrderRepository {
@@ -25,35 +30,25 @@ public class OrderRepository {
     R2dbcEntityTemplate template;
 
     public Mono<ProductOrder> getById(Long id) {
-        return databaseClient.sql("select * from t_order where id=" + id)
-                .map((row, obj) -> ProductOrder.builder()
-                        .id(row.get("id", Long.class))
-                        .state(OrderState.values()[row.get("state", Integer.class)])
-                        .customer(row.get("customer", String.class))
-                        .createTime(row.get("create_time", LocalDateTime.class))
-                        .updateTime(row.get("update_time", LocalDateTime.class))
-                        .products(new ArrayList<>())
-                        .build()
-                )
+        return template.select(ProductOrder.class)
+                .matching(Query.query(Criteria.where("id").is(id)).limit(1))
                 .first()
                 .flatMap(po ->
                         databaseClient.sql("select p.* from t_product p,t_order_product o where" +
                                         " p.id=o.product_id" +
                                         " and o.order_id=:order_id")
                                 .bind("order_id", id)
-                                .fetch()
+                                .map((row,obj)->Product.builder()
+                                        .id(row.get("id",Long.class))
+                                        .name(row.get("name",String.class))
+                                        .price(Money.ofMinor(CurrencyUnit.of("CNY"), row.get("price",Long.class)))
+                                        .createTime(row.get("create_time",LocalDateTime.class))
+                                        .updateTime(row.get("update_time",LocalDateTime.class))
+                                        .build())
                                 .all()
-                                .flatMap(map ->
-                                        Mono.just(Product.builder()
-                                                .id((Long) map.getOrDefault("id", 0L))
-                                                .name((String) map.getOrDefault("name", ""))
-                                                .price(Money.ofMinor(CurrencyUnit.of("CNY"), (Long) map.getOrDefault("price", 0L)))
-                                                .createTime((LocalDateTime) map.get("create_time"))
-                                                .updateTime((LocalDateTime) map.get("update_time"))
-                                                .build())
-                                )
                                 .collectList()
                                 .flatMap(l -> {
+                                    po.setProducts(new ArrayList<>());
                                     po.getProducts().addAll(l);
                                     return Mono.just(po);
                                 })

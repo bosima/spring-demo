@@ -17,6 +17,7 @@ public class R2dbcConfiguration {
         return R2dbcCustomConversions.of(dialect,
                 Arrays.asList(new LongToMoneyConverter(),
                         new MoneyToLongConverter(),
-                        new OrderStateToIntegerConvert()));
+                        new OrderStateToIntegerConverter(),
+                        new IntegerToOrderStateConverter()));
     }
 }
