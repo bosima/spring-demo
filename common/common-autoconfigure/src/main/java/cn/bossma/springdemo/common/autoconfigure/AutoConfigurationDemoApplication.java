@@ -13,6 +13,7 @@ public class AutoConfigurationDemoApplication {
         SpringApplication.run(AutoConfigurationDemoApplication.class, args);
     }
 
+// 优先于引入的自动配置
 //    @Bean
 //    public GreetingApplicationRunner greetingApplicationRunner(){
 //        return new GreetingApplicationRunner("World");

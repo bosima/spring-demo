@@ -22,21 +22,35 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
         <dependency>
+            <groupId>cn.bossma.springdemo</groupId>
+            <artifactId>bossma-spring-boot-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 基于Spring Boot的自动配置 -->
+        <!--
+        <dependency>
+            <groupId>cn.bossma.springdemo</groupId>
+            <artifactId>bosima-spring-boot-autoconfigure</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+         <dependency>
             <groupId>cn.bossma.springdemo</groupId>
             <artifactId>greeting</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>cn.bossma.springdemo</groupId>-->
-<!--            <artifactId>bosima-spring-boot-autoconfigure</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        -->
+
+        <!-- 手工实现的自动配置 -->
+        <!--
         <dependency>
             <groupId>cn.bossma.springdemo</groupId>
             <artifactId>common-autoconfigure-backport</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
