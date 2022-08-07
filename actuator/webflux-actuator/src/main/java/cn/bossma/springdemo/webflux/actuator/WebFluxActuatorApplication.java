@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableR2dbcRepositories
-public class MvcWebFluxApplication {
+public class WebFluxActuatorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MvcWebFluxApplication.class, args);
+		SpringApplication.run(WebFluxActuatorApplication.class, args);
 	}
 
 }
