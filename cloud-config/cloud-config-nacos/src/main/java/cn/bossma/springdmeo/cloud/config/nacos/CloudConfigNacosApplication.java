@@ -1,6 +1,6 @@
-package cn.bossma.springdmeo.cloud.config.consul;
+package cn.bossma.springdmeo.cloud.config.nacos;
 
-import cn.bossma.springdmeo.cloud.config.consul.configuration.RemoteProperties;
+import cn.bossma.springdmeo.cloud.config.nacos.configuration.RemoteProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -12,12 +12,18 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 @Slf4j
-public class CloudConfigConsulApplication implements ApplicationRunner {
+public class CloudConfigNacosApplication implements ApplicationRunner {
     @Autowired
     RemoteProperties conf;
 
     public static void main(String[] args) {
-        var context = SpringApplication.run(CloudConfigConsulApplication.class, args);
+        // enable bootstrap.properties
+        //System.setProperty("spring.cloud.bootstrap.enable", "true");
+
+        // use legacy style process config
+        //System.setProperty("spring.config.use-legacy-processing", "true");
+
+        var context = SpringApplication.run(CloudConfigNacosApplication.class, args);
         log.info("labels.name:{}", context.getEnvironment().getProperty("labels.name"));
         log.info("labels.city:{}", context.getEnvironment().getProperty("labels.city"));
     }

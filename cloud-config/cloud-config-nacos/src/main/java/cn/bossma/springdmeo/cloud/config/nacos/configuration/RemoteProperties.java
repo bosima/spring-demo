@@ -1,4 +1,4 @@
-package cn.bossma.springdmeo.cloud.config.consul.configuration;
+package cn.bossma.springdmeo.cloud.config.nacos.configuration;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
